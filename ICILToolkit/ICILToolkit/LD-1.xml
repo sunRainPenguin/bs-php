@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://www.plcopen.org/xml/tc6_0200">
+  <fileHeader companyName="" productName="CODESYS" productVersion="CODESYS V3.5 SP10" creationDateTime="2018-02-17T15:27:48.2946018" />
+  <contentHeader name="LiquidLevelControler.project" modificationDateTime="2018-02-17T15:27:33.3769123">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="1" y="1" />
+      </fbd>
+      <ld>
+        <scaling x="1" y="1" />
+      </ld>
+      <sfc>
+        <scaling x="1" y="1" />
+      </sfc>
+    </coordinateInfo>
+    <addData>
+      <data name="http://www.3s-software.com/plcopenxml/projectinformation" handleUnknown="implementation">
+        <ProjectInformation />
+      </data>
+    </addData>
+  </contentHeader>
+  <types>
+    <dataTypes />
+    <pous />
+  </types>
+  <instances>
+    <configurations />
+  </instances>
+  <addData>
+    <data name="http://www.3s-software.com/plcopenxml/application" handleUnknown="implementation">
+      <resource name="Application">
+        <task name="Task" interval="PT0.02S" priority="1">
+          <pouInstance name="Main" typeName="">
+            <documentation>
+              <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+            </documentation>
+          </pouInstance>
+          <addData>
+            <data name="http://www.3s-software.com/plcopenxml/tasksettings" handleUnknown="implementation">
+              <TaskSettings KindOfTask="Cyclic" Interval="t#20ms" IntervalUnit="ms" WithinSPSTimeSlicing="true">
+                <Watchdog Enabled="false" TimeUnit="ms" Sensitivity="1" />
+              </TaskSettings>
+            </data>
+            <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+              <ObjectId>6c6a26f2-815d-4016-af80-126059c57c10</ObjectId>
+            </data>
+          </addData>
+        </task>
+        <addData>
+          <data name="http://www.3s-software.com/plcopenxml/pou" handleUnknown="implementation">
+            <pou name="Main" pouType="program">
+              <interface>
+                <inputVars>
+                  <variable name="START">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                  <variable name="STOP">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                  <variable name="LSL_1">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                  <variable name="LSH_1">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                </inputVars>
+                <outputVars>
+                  <variable name="AUTO">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                  <variable name="PUMP">
+                    <type>
+                      <BOOL />
+                    </type>
+                  </variable>
+                </outputVars>
+              </interface>
+              <body>
+                <LD>
+                  <leftPowerRail localId="0">
+                    <position x="0" y="0" />
+                    <connectionPointOut formalParameter="none" />
+                  </leftPowerRail>
+                  <comment localId="1" height="0" width="0">
+                    <position x="0" y="0" />
+                    <content>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                    </content>
+                  </comment>
+                  <vendorElement localId="2">
+                    <position x="0" y="0" />
+                    <alternativeText>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                    </alternativeText>
+                    <addData>
+                      <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                        <ElementType xmlns="">networktitle</ElementType>
+                      </data>
+                    </addData>
+                  </vendorElement>
+                  <contact localId="3" negated="false" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="0" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>START</variable>
+                  </contact>
+                  <contact localId="4" negated="false" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="0" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>AUTO</variable>
+                  </contact>
+                  <contact localId="5" negated="true" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="3" />
+                      <connection refLocalId="4" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>STOP</variable>
+                  </contact>
+                  <coil localId="6" negated="false" storage="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="5" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>AUTO</variable>
+                  </coil>
+                  <comment localId="7" height="0" width="0">
+                    <position x="0" y="0" />
+                    <content>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                    </content>
+                  </comment>
+                  <vendorElement localId="8">
+                    <position x="0" y="0" />
+                    <alternativeText>
+                      <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                    </alternativeText>
+                    <addData>
+                      <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                        <ElementType xmlns="">networktitle</ElementType>
+                      </data>
+                    </addData>
+                  </vendorElement>
+                  <contact localId="9" negated="true" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="0" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>LSL_1</variable>
+                  </contact>
+                  <contact localId="10" negated="false" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="0" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>PUMP</variable>
+                  </contact>
+                  <contact localId="11" negated="true" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="9" />
+                      <connection refLocalId="10" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>LSH_1</variable>
+                  </contact>
+                  <contact localId="12" negated="false" storage="none" edge="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="11" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>AUTO</variable>
+                  </contact>
+                  <coil localId="13" negated="false" storage="none">
+                    <position x="0" y="0" />
+                    <connectionPointIn>
+                      <connection refLocalId="12" />
+                    </connectionPointIn>
+                    <connectionPointOut />
+                    <variable>PUMP</variable>
+                  </coil>
+                  <rightPowerRail localId="2147483646">
+                    <position x="0" y="0" />
+                    <connectionPointIn />
+                  </rightPowerRail>
+                </LD>
+              </body>
+              <addData>
+                <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                  <ObjectId>87659aa3-2834-45f1-b031-5a02313379dc</ObjectId>
+                </data>
+              </addData>
+            </pou>
+          </data>
+          <data name="http://www.3s-software.com/plcopenxml/libraries" handleUnknown="implementation">
+            <Libraries>
+              <Library Name="#IoStandard" Namespace="IoStandard" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="true" DefaultResolution="IoStandard, 3.5.10.0 (System)" />
+              <Library Name="#3SLicense" Namespace="_3S_LICENSE" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="3SLicense, 0.0.0.0 (3S - Smart Software Solutions GmbH)" ResolverGuid="97c3b452-d9fa-4ac2-9d0c-3d420aa6d95b" />
+              <Library Name="#BreakpointLogging" Namespace="BPLog" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="Breakpoint Logging Functions, 3.5.5.0 (3S - Smart Software Solutions GmbH)" />
+              <addData>
+                <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                  <ObjectId>ff3907f2-88aa-4963-8f38-4c152e8fcb1b</ObjectId>
+                </data>
+              </addData>
+            </Libraries>
+          </data>
+          <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+            <ObjectId>8d71d0e0-7efe-4e7f-8371-e310101b028e</ObjectId>
+          </data>
+        </addData>
+      </resource>
+    </data>
+    <data name="http://www.3s-software.com/plcopenxml/projectstructure" handleUnknown="discard">
+      <ProjectStructure>
+        <Object Name="Application" ObjectId="8d71d0e0-7efe-4e7f-8371-e310101b028e">
+          <Object Name="Library Manager" ObjectId="ff3907f2-88aa-4963-8f38-4c152e8fcb1b" />
+          <Object Name="Main" ObjectId="87659aa3-2834-45f1-b031-5a02313379dc" />
+          <Object Name="Task" ObjectId="6c6a26f2-815d-4016-af80-126059c57c10" />
+        </Object>
+      </ProjectStructure>
+    </data>
+  </addData>
+</project>

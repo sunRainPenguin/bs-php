@@ -1,0 +1,14 @@
+digraph network1 {
+label = network1
+9[label = "LSL_1"]
+10[label = "PUMP"]
+11[label = "LSH_1"]
+12[label = "AUTO"]
+13[label = "PUMP"]
+vn0 -> 9
+vn0 -> 10
+9 -> 11
+10 -> 11
+11 -> 12
+12 -> 13
+}
