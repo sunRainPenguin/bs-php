@@ -1,5 +1,10 @@
 #include "FBNode.h"
 
+FBInterface::FBInterface(string varFormalParameter, FBConnection* connection)
+{
+	this->varFormalParameter = varFormalParameter;
+	this->connection = connection;
+}
 
 FBNode::FBNode(string ID, FBEleType type)
 {
@@ -26,12 +31,32 @@ string FBNode::getExp()
 	return "";
 }
 
-string FBNode::getRefLocalId()
+FBConnection * FBNode::getFBConnection()
+{
+	return nullptr;
+}
+
+
+string FBNode::getFBTypeName()
 {
 	return "";
 }
 
-string FBNode::getFormalParameter()
+string FBNode::getInstanceName()
+{
+	return "";
+}
+
+string FBNode::getICILExp()
+{
+	return "";
+}
+
+void FBNode::setICILExp(string exp)
+{
+}
+
+string FBNode::getFBOutput(string varFormalParameter)
 {
 	return "";
 }
@@ -46,4 +71,9 @@ vector<FBInterface*> FBNode::getOutVars()
 	return vector<FBInterface*>();
 }
 
+FBConnection::FBConnection(string refLocalId, string formalParameter)
+{
+	this->refLocalId = refLocalId;
+	this->formalParameter = formalParameter;
+}
 

@@ -1,4 +1,5 @@
 #include "FBNode.h"
+
 class FBInVarNode :
 	public FBNode
 {

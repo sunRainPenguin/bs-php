@@ -14,7 +14,7 @@ Util::~Util()
 void Util::generatePNG(XMLParser * parser)
 {
 	std::ofstream dotFile;
-	string exeDir = "E:\\硕士毕业设计\\代码\\ICIL\\graphviz-2.38\\bin\\dot.exe";
+	string exeDir = "E:\\硕士毕业设计\\代码\\ICIL工具代码\\graphviz-2.38\\bin\\dot.exe";
 	string root = exeDir.substr(0, 2);
 	const char *cmdExplore = root.c_str();
 

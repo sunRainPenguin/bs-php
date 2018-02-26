@@ -151,6 +151,7 @@
     <ClCompile Include="XMLParser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="FBBlockNode.h" />
     <ClInclude Include="FBInVarNode.h" />
     <ClInclude Include="FBNode.h" />

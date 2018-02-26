@@ -3,12 +3,15 @@
 
 int main()
 {
+	// parse LD
 	XMLParser* xmlParser = new XMLParser("LD.xml");
-	string LDExp = xmlParser->parseLD();
-	xmlParser = new XMLParser("FB.xml");
-	string FBStmtList = xmlParser->parseFB();
+	xmlParser->parseLD();
 	Util::generatePNG(xmlParser);
-	std::cout << "LDExp :  \n" << LDExp << std::endl;
+
+	// parse FB
+	xmlParser = new XMLParser("FB.xml");
+	xmlParser->parseFB();
+	
 	return 0;
 }
 

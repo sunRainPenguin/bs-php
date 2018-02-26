@@ -1,8 +1,4 @@
 #include "Variable.h"
-#include "vector"
-#include <unordered_map>
-using std::vector;
-using std::unordered_map;
 
 enum LDEleType {
 	VirtualNode,
@@ -50,10 +46,13 @@ public:
 class LDNetworkTree {
 private:
 	int ID; // network ID
-	
+	LDNode* coil; // coil分解后的结果：一棵树只有一个coil
+
 public:
 	vector<LDNode*> vecTreeNode; // 一个network中的所有节点:由于目前拓扑排序没有用到虚拟节点，这里的虚拟节点暂时没有按照拓扑排序
 	LDNetworkTree(int ID);
+	void setCoil(LDNode* node);
+	LDNode* getCoil();
 };
 
 

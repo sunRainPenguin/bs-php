@@ -2,11 +2,10 @@
 
 
 
-FBOutVarNode::FBOutVarNode(string id, FBEleType type, string refLocalId, string formalParameter, string exp)
+FBOutVarNode::FBOutVarNode(string id, FBEleType type, FBConnection* connection, string exp)
 	:FBNode(id,type)
 {
-	this->refLocalId = refLocalId;
-	this->formalParameter = formalParameter;
+	this->connection = connection;
 	this->exp = exp;
 }
 
@@ -15,16 +14,11 @@ FBOutVarNode::~FBOutVarNode()
 {
 }
 
-string FBOutVarNode::getRefLocalId()
+FBConnection * FBOutVarNode::getFBConnection()
 {
-	return this->refLocalId;
+	return this->connection;
 }
-
-string FBOutVarNode::getFormalParameter()
-{
-	return this->formalParameter;
-}
-
+ 
 string FBOutVarNode::getExp()
 {
 	return this->exp;

@@ -74,6 +74,9 @@
     <ClInclude Include="FBBlockNode.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="LD.xml" />

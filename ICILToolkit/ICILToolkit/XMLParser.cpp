@@ -7,7 +7,7 @@ XMLParser::XMLParser(string xmlPath)
 	virtualNodeNum = 0;
 	this->xmlDoc = new xml_document();
 	xml_parse_result result = xmlDoc->load_file(xmlPath.c_str());
-	std::cout << "Load result: " << result.description() << "\n";
+	std::cout << "XML Load Result: " << xmlPath << " "<<result.description() << "\n";
 	// result error: ...
 }
 
@@ -16,7 +16,7 @@ XMLParser::~XMLParser()
 {
 }
 
-string XMLParser::parseLD()
+void XMLParser::parseLD()
 {
 	xml_node project = this->xmlDoc->child("project");
 	xml_node addData0 = project.child("addData");
@@ -27,8 +27,8 @@ string XMLParser::parseLD()
 	xml_node pou = data1.child("pou");
 
 	// parse interface
-	xml_node interface = pou.child("interface");
-	for (xml_node varCat : interface.children()) {
+	xml_node pouInterface = pou.child("interface");
+	for (xml_node varCat : pouInterface.children()) {
 		for (xml_node xmlVar : varCat.children("variable")) {
 			Variable* var = parseVar(xmlVar);
 			if (var != nullptr) {
@@ -80,6 +80,9 @@ string XMLParser::parseLD()
 			int nodeY = xmlLDEle.child("position").attribute("y").as_int();
 			Pos* pos = new Pos(nodeX, nodeY);
 			node = new LDNode(LDEleID, ldEleType, var, xmlLDEle.attribute("negated").as_bool(), xmlLDEle.attribute("storage").as_bool(), pos);
+			if (node->getType() == Coil) {
+				tree->setCoil(node);
+			}
 			mapLDNodes.insert(make_pair(node->getID(), node));
 			tree->vecTreeNode.push_back(node);
 		}
@@ -116,15 +119,19 @@ string XMLParser::parseLD()
 		}
 	}
 
-	// get LD bool exp
-	string LDExps = "";
+	// 生成Process statement list
+	ofstream il;
+	il.open("OUTPUT\\LD_ICIL.il", std::ios::trunc);
+	il << "Program() = " << std::endl;
 	for (LDNetworkTree* tree : this->vecTree) {
-		LDExps += LDToBoolExp(tree);
+			il << tree->getCoil()->getVar()->getName() << " = ";
+			il << LDToBoolExp(tree) << ";" << std::endl;	
 	}
-	return LDExps;
+	il.flush();
+	il.close();
 }
 
-string XMLParser::parseFB()
+void XMLParser::parseFB()
 {
 	string processStmtList = "";
 	xml_node project = this->xmlDoc->child("project");
@@ -142,21 +149,27 @@ string XMLParser::parseFB()
 
 	FBInVarNode* fbInVarNode = nullptr;
 	FBOutVarNode* fbOutVarNode = nullptr;
-	FBBlockNode* fbBlockVarNode = nullptr;
+	FBBlockNode* fbBlockNode = nullptr;
 	xml_node xmlexp;
 	xml_node xmlConnectIn;
 	xml_node xmlConnection;
+	string id = "";
 	string refLocalId = "";
 	string formalParameter = "";
+	string varFormalParameter = "";
 	string exp = "";
+	string fbTypeName = "";
+	string fbInstanceName = "";
+	FBConnection* fbConnection = nullptr;
 	FBInterface* fbinterface = nullptr;
 	for (xml_node n : FBD.children()) {
-		string id = string(n.attribute("localId").as_string());
+		id = string(n.attribute("localId").as_string());
 		if (string(n.name()) == "inVariable") {
 			xmlexp = n.child("expression");
 			exp = string(xmlexp.text().as_string());
 			fbInVarNode = new FBInVarNode(id, InVar, exp);
 			mapFBNodes.insert(make_pair(id, fbInVarNode));
+			vecFBNode.push_back(fbInVarNode);
 		}
 		else if (string(n.name()) == "outVariable") {
 			xmlConnectIn = n.child("connectionPointIn");
@@ -165,28 +178,102 @@ string XMLParser::parseFB()
 			exp = string(xmlexp.text().as_string());
 			refLocalId = xmlConnection.attribute("refLocalId").as_string();
 			formalParameter = xmlConnection.attribute("formalParameter").as_string();
-			fbOutVarNode = new FBOutVarNode(id, OutVar, refLocalId, formalParameter, exp);
+			fbConnection = new FBConnection(refLocalId, formalParameter);
+			fbOutVarNode = new FBOutVarNode(id, OutVar, fbConnection, exp);
 			mapFBNodes.insert(make_pair(id, fbOutVarNode));
+			vecFBNode.push_back(fbOutVarNode);
 		}
 		else if (string(n.name()) == "block") {
-			fbBlockVarNode = new FBBlockNode(id, Block);
+			fbTypeName = n.attribute("typeName").as_string();
+			fbInstanceName = n.attribute("instanceName").as_string();
+			fbBlockNode = new FBBlockNode(id, Block, fbTypeName, fbInstanceName);
 			for (xml_node inputVar : n.child("inputVariables")) {
-				xmlConnectIn = inputVar.child("connectionPointIn");
-				xmlConnection = xmlConnectIn.child("connection");
-				refLocalId = string(xmlConnection.attribute("refLocalId").as_string());
-				fbinterface = new FBInterface(refLocalId, "");
-				fbBlockVarNode->inVars.push_back(fbinterface);
+						varFormalParameter = inputVar.attribute("formalParameter").as_string();
+						xmlConnectIn = inputVar.child("connectionPointIn");
+						xmlConnection = xmlConnectIn.child("connection");
+						refLocalId = xmlConnection.attribute("refLocalId").as_string();
+						formalParameter = xmlConnection.attribute("formalParameter").as_string();
+						fbConnection = new FBConnection(refLocalId, formalParameter);
+						fbinterface = new FBInterface(varFormalParameter, fbConnection);
+						fbBlockNode->inVars.push_back(fbinterface);
 			}
 			for (xml_node outVar : n.child("outputVariables")) {
-				formalParameter = string(outVar.attribute("formalParameter").as_string());
-				fbinterface = new FBInterface("", formalParameter);
-				fbBlockVarNode->outVars.push_back(fbinterface);
+				varFormalParameter = string(outVar.attribute("formalParameter").as_string());
+				fbinterface = new FBInterface(varFormalParameter, nullptr);
+				fbBlockNode->outVars.push_back(fbinterface);
 			}
-			mapFBNodes.insert(make_pair(id, fbBlockVarNode));
+			mapFBNodes.insert(make_pair(id, fbBlockNode));
+			vecFBNode.push_back(fbBlockNode);
 		}
 	}
-	exp = mapFBNodes["10000000001"]->getExp();
-	return processStmtList;
+
+	// 生成Process statement list
+	ofstream il;
+	il.open("OUTPUT\\FB_ICIL.il", std::ios::trunc);
+	vector<FBNode*>::iterator it = vecFBNode.begin();
+	FBNode* fbNode = nullptr;
+	string op = "";
+	string ICILExp = "";
+	string temp = "";
+
+	// 遍历所有的AND OR表达式，组织成ICIL表达式
+	while (it!= vecFBNode.end()){
+		fbNode = *it;
+		if (fbNode->getType() != Block) {
+			it++;
+			continue;
+		}
+		if (fbNode->getFBTypeName() == "OR" || fbNode->getFBTypeName() == "AND") {
+			if (fbNode->getFBTypeName() == "OR") {
+				op = "||";
+			}
+			else {
+				op = "&&";
+			}
+			ICILExp = "";
+			for (FBInterface* in : fbNode->getInVars()) {
+				/*temp = mapFBNodes[in->connection->refLocalId]->getFBOutput(in->connection->formalParameter);*/
+				temp = this->getConnectionExp(in->connection);
+				if (in == fbNode->getInVars()[0]) {
+					ICILExp = ICILExp.append(temp);
+				}
+				else {
+					ICILExp = ICILExp.append(op + temp);
+				}
+			}
+			fbNode->setICILExp(ICILExp);
+		}
+		it++;
+	}
+	
+	// 遍历所有其他节点，组成最终ICIL代码
+	il << "Program() = " << std::endl;
+	it = vecFBNode.begin();
+	while (it != vecFBNode.end()) {
+		fbNode = *it;
+		if (fbNode->getType() == OutVar) {
+			// expression = connection
+			il << fbNode->getExp() << " = " << this->getConnectionExp(fbNode->getFBConnection()) << ";" << std::endl;
+		}
+		else if (fbNode->getType() == Block) {
+			if (fbNode->getFBTypeName() == "OR" || fbNode->getFBTypeName() == "AND") {
+				it++;
+				continue;
+			}
+			// FB(arg0,arg1)
+			il << fbNode->getInstanceName() << "(";
+			for (FBInterface* in : fbNode->getInVars()) {
+				if (in != fbNode->getInVars()[0]) {
+					il << ",";
+				}
+				il << in->varFormalParameter << "=" << this->getConnectionExp(in->connection);
+			}
+			il << ");" << std::endl;
+		}
+		it++;
+	}
+	il.flush();
+	il.close();
 }
 
 // 将LD转换为布尔表达式，只包含contact
@@ -297,7 +384,6 @@ string XMLParser::LDToBoolExp(LDNetworkTree* tree)
 		}
 		cn = cn->next;
 	}
-	boolExp += "\n";
 	return boolExp;
 }
 
@@ -458,5 +544,19 @@ LDNode* XMLParser::addParenthesis(LDNode* branchNode, LDNetworkTree* tree)
 				return mergeNode;
 			}
 		}
+	}
+}
+
+string XMLParser::getConnectionExp(FBConnection* fbConnection)
+{
+	string connectionICIL = mapFBNodes[fbConnection->refLocalId]->getICILExp();
+	if (connectionICIL != "") {
+		return connectionICIL;
+	}
+	else if (fbConnection->formalParameter == "") {
+		return mapFBNodes[fbConnection->refLocalId]->getExp();
+	}
+	else {
+		return  mapFBNodes[fbConnection->refLocalId]->getInstanceName() + "." + fbConnection->formalParameter;
 	}
 }

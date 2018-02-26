@@ -1,10 +1,7 @@
 #ifndef _FBNODE_H_
 #define _FBNODE_H_
 
-#include <string>
-#include <vector>
-using std::string;
-using std::vector;
+#include "Constants.h"
 
 enum FBEleType {
 	InVar,
@@ -12,10 +9,16 @@ enum FBEleType {
 	Block
 };
 
-struct FBInterface {
-	string formalParameter;
+struct FBConnection {
 	string refLocalId;
-	FBInterface(string formalParameter, string refLocalId);
+	string formalParameter;
+	FBConnection(string refLocalId, string formalParameter);
+};
+
+struct FBInterface {
+	string varFormalParameter;
+	FBConnection* connection;
+	FBInterface(string varFormalParameter, FBConnection* connection);
 };
 
 class FBNode
@@ -29,10 +32,14 @@ public:
 	~FBNode();
 	FBEleType getType();
 	string getID();
-	virtual string getExp();
-	virtual string getRefLocalId();
-	virtual string getFormalParameter();
-	virtual vector<FBInterface*> getInVars();
-	virtual vector<FBInterface*> getOutVars();
+	virtual string getExp();	// FBInVar FBOutVar
+	virtual FBConnection* getFBConnection();	// FBOutVar
+	virtual string getFBTypeName();	// FBBlock
+	virtual string getInstanceName();	// FBBlock
+	virtual string getICILExp();	// FBBlock
+	virtual void setICILExp(string exp);	// FBBlock
+	virtual string getFBOutput(string varFormalParameter);	// FBBlock
+	virtual vector<FBInterface*> getInVars();	// FBBlock
+	virtual vector<FBInterface*> getOutVars();	// FBBlock
 };
 #endif

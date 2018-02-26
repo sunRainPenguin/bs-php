@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0200">
-  <fileHeader companyName="" productName="CODESYS" productVersion="CODESYS V3.5 SP10" creationDateTime="2018-02-18T17:43:52.9532224" />
-  <contentHeader name="E-motor.project" modificationDateTime="2018-02-12T23:06:07.2433716">
+  <fileHeader companyName="" productName="CODESYS" productVersion="CODESYS V3.5 SP10" creationDateTime="2018-02-26T10:15:15.1331641" />
+  <contentHeader name="E-motor.project" modificationDateTime="2018-02-26T10:14:57.7045276">
     <coordinateInfo>
       <fbd>
         <scaling x="1" y="1" />
@@ -184,40 +184,35 @@
                       </data>
                     </addData>
                   </block>
-                  <outVariable localId="10000000005">
-                    <position x="0" y="0" />
-                    <connectionPointIn>
-                      <connection refLocalId="10000000004" formalParameter="Out1" />
-                    </connectionPointIn>
-                    <expression>RS1.SET</expression>
-                  </outVariable>
-                  <inVariable localId="10000000006">
+                  <inVariable localId="10000000005">
                     <position x="0" y="0" />
                     <connectionPointOut />
                     <expression>TZ</expression>
                   </inVariable>
-                  <inVariable localId="10000000007">
+                  <inVariable localId="10000000006">
                     <position x="0" y="0" />
                     <connectionPointOut />
                     <expression>T1.Q</expression>
                   </inVariable>
-                  <block localId="10000000008" typeName="OR">
+                  <block localId="10000000007" typeName="OR">
                     <position x="0" y="0" />
                     <inputVariables>
                       <variable formalParameter="In1">
                         <connectionPointIn>
-                          <connection refLocalId="10000000006" />
+                          <connection refLocalId="10000000005" />
                         </connectionPointIn>
                       </variable>
                       <variable formalParameter="In2">
                         <connectionPointIn>
-                          <connection refLocalId="10000000007" />
+                          <connection refLocalId="10000000006" />
                         </connectionPointIn>
                       </variable>
                     </inputVariables>
                     <inOutVariables />
                     <outputVariables>
-                      <variable formalParameter="Out1" />
+                      <variable formalParameter="Out1">
+                        <connectionPointOut />
+                      </variable>
                     </outputVariables>
                     <addData>
                       <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
@@ -227,16 +222,21 @@
                         <InputParamTypes xmlns="" />
                       </data>
                       <data name="http://www.3s-software.com/plcopenxml/outputparamtypes" handleUnknown="implementation">
-                        <OutputParamTypes xmlns="" />
+                        <OutputParamTypes xmlns="">BOOL</OutputParamTypes>
                       </data>
                     </addData>
                   </block>
-                  <block localId="10000000009" typeName="RS" instanceName="RS1">
+                  <block localId="10000000008" typeName="RS" instanceName="RS1">
                     <position x="0" y="0" />
                     <inputVariables>
+                      <variable formalParameter="SET">
+                        <connectionPointIn>
+                          <connection refLocalId="10000000004" formalParameter="Out1" />
+                        </connectionPointIn>
+                      </variable>
                       <variable formalParameter="RESET1">
                         <connectionPointIn>
-                          <connection refLocalId="10000000008" formalParameter="Out1" />
+                          <connection refLocalId="10000000007" formalParameter="Out1" />
                         </connectionPointIn>
                       </variable>
                     </inputVariables>
@@ -251,17 +251,17 @@
                         <CallType xmlns="">functionblock</CallType>
                       </data>
                       <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
-                        <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        <InputParamTypes xmlns="">BOOL BOOL</InputParamTypes>
                       </data>
                       <data name="http://www.3s-software.com/plcopenxml/outputparamtypes" handleUnknown="implementation">
                         <OutputParamTypes xmlns="">BOOL</OutputParamTypes>
                       </data>
                     </addData>
                   </block>
-                  <outVariable localId="10000000010">
+                  <outVariable localId="10000000009">
                     <position x="0" y="0" />
                     <connectionPointIn>
-                      <connection refLocalId="10000000009" formalParameter="Q1" />
+                      <connection refLocalId="10000000008" formalParameter="Q1" />
                     </connectionPointIn>
                     <expression>ZZ</expression>
                   </outVariable>

@@ -85,6 +85,17 @@ Pos* LDNode::getPos()
 LDNetworkTree::LDNetworkTree(int ID)
 {
 	this->ID = ID;
+	this->coil = nullptr;
+}
+
+void LDNetworkTree::setCoil(LDNode * node)
+{
+	this->coil = node;
+}
+
+LDNode * LDNetworkTree::getCoil()
+{
+	return this->coil;
 }
 
 Pos::Pos(int x, int y)

@@ -5,14 +5,7 @@
 #include "FBBlockNode.h"
 #include "pugiconfig.hpp"
 #include "pugixml.hpp"
-#include <iostream>
-#include <algorithm> 
-#include <set>
-#include <queue>
-#include <utility>
-using std::set;
-using std::queue;
-using std::pair;
+#include "Constants.h"
 using namespace pugi;
 
 class XMLParser
@@ -30,9 +23,12 @@ public:
 	unordered_map<string, LDNode*> mapLDNodes; 
 	unordered_map<string, FBNode*> mapFBNodes;
 	vector<LDNetworkTree*> vecTree;
+	vector<FBNode*> vecFBNode;
 	XMLParser(string xmlPath);
 	~XMLParser();
-	string parseLD();
-	string parseFB();
+	void parseLD();
+	void parseFB();
+
+	string getConnectionExp(FBConnection* fbConnection);
 };
 

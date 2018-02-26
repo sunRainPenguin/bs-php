@@ -1,6 +1,5 @@
 #pragma once
-#include <string>
-using std::string;
+#include "Constants.h"
 
 enum VarType {
 	NullType,

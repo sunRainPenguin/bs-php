@@ -1,6 +1,4 @@
 #include "XMLParser.h"
-#include <windows.h>
-#include <fstream>
 
 class Util
 {
