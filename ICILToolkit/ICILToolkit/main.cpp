@@ -11,7 +11,7 @@ int main()
 	// parse FB
 	xmlParser = new XMLParser("FB.xml");
 	xmlParser->parseFB();
-	
+	xmlParser->parseSFC();
 	return 0;
 }
 

@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\SFC">
+      <UniqueIdentifier>{b082c955-8278-423a-90a9-084962f3fa73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\SFC">
+      <UniqueIdentifier>{706976af-c385-4c58-bdf7-37338fa15f51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,6 +51,39 @@
     <ClCompile Include="FBBlockNode.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SFCAction.cpp">
+      <Filter>源文件\SFC</Filter>
+    </ClCompile>
+    <ClCompile Include="SFCActionBlock.cpp">
+      <Filter>源文件\SFC</Filter>
+    </ClCompile>
+    <ClCompile Include="SFCInVariable.cpp">
+      <Filter>源文件\SFC</Filter>
+    </ClCompile>
+    <ClCompile Include="SFCJumpStep.cpp">
+      <Filter>源文件\SFC</Filter>
+    </ClCompile>
+    <ClCompile Include="SFCSimultaneousCv.cpp">
+      <Filter>源文件\SFC</Filter>
+    </ClCompile>
+    <ClCompile Include="SFCSimultaneousDv.cpp">
+      <Filter>源文件\SFC</Filter>
+    </ClCompile>
+    <ClCompile Include="SFCTransition.cpp">
+      <Filter>源文件\SFC</Filter>
+    </ClCompile>
+    <ClCompile Include="SFCConvertor.cpp">
+      <Filter>源文件\SFC</Filter>
+    </ClCompile>
+    <ClCompile Include="PLCBody.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SFCStep.cpp">
+      <Filter>源文件\SFC</Filter>
+    </ClCompile>
+    <ClCompile Include="SFCEle.cpp">
+      <Filter>源文件\SFC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XMLParser.h">
@@ -76,6 +115,39 @@
     </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SFCAction.h">
+      <Filter>头文件\SFC</Filter>
+    </ClInclude>
+    <ClInclude Include="SFCActionBlock.h">
+      <Filter>头文件\SFC</Filter>
+    </ClInclude>
+    <ClInclude Include="SFCInVariable.h">
+      <Filter>头文件\SFC</Filter>
+    </ClInclude>
+    <ClInclude Include="SFCJumpStep.h">
+      <Filter>头文件\SFC</Filter>
+    </ClInclude>
+    <ClInclude Include="SFCSimultaneousCv.h">
+      <Filter>头文件\SFC</Filter>
+    </ClInclude>
+    <ClInclude Include="SFCSimultaneousDv.h">
+      <Filter>头文件\SFC</Filter>
+    </ClInclude>
+    <ClInclude Include="SFCTransition.h">
+      <Filter>头文件\SFC</Filter>
+    </ClInclude>
+    <ClInclude Include="SFCConvertor.h">
+      <Filter>头文件\SFC</Filter>
+    </ClInclude>
+    <ClInclude Include="PLCBody.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SFCStep.h">
+      <Filter>头文件\SFC</Filter>
+    </ClInclude>
+    <ClInclude Include="SFCEle.h">
+      <Filter>头文件\SFC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

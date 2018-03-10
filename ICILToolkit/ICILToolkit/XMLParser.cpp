@@ -276,6 +276,11 @@ void XMLParser::parseFB()
 	il.close();
 }
 
+void XMLParser::parseSFC()
+{
+	SFCConvertor* sfcCvt = new SFCConvertor();
+}
+
 // 将LD转换为布尔表达式，只包含contact
 string XMLParser::LDToBoolExp(LDNetworkTree* tree)
 {

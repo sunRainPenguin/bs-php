@@ -3,6 +3,7 @@
 #include "FBInVarNode.h"
 #include "FBOutVarNode.h"
 #include "FBBlockNode.h"
+#include "SFCConvertor.h"
 #include "pugiconfig.hpp"
 #include "pugixml.hpp"
 #include "Constants.h"
@@ -28,7 +29,7 @@ public:
 	~XMLParser();
 	void parseLD();
 	void parseFB();
-
+	void parseSFC();
 	string getConnectionExp(FBConnection* fbConnection);
 };
 
